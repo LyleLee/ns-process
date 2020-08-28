@@ -3,21 +3,28 @@ package main
 import (
 	"fmt"
 	"os"
+	"log"
 	"os/exec"
 	"syscall"
 
 	"github.com/docker/docker/pkg/reexec"
 )
 
+
 func init() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	log.Println("run func init()")
 	reexec.Register("nsInitialisation", nsInitialisation)
+	log.Println("finish reexec.Register()")
 	if reexec.Init() {
+		log.Println("reexec.init() have been init()")
 		os.Exit(0)
 	}
+	log.Println("run func init() finish")
 }
 
 func nsInitialisation() {
-	fmt.Printf("\n>> namespace setup code goes here <<\n\n")
+	log.Println(">> namespace setup code goes here <<")
 	nsRun()
 }
 
@@ -37,8 +44,11 @@ func nsRun() {
 }
 
 func main() {
+	log.Println("main() begin in first line")
 	cmd := reexec.Command("nsInitialisation")
-
+	log.Println("main() construct  reexec.Command()")
+	log.Println(cmd.Path)
+	log.Println(cmd.Args[0])
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
