@@ -29,6 +29,7 @@ func nsInitialisation() {
 }
 
 func nsRun() {
+	//panic("panic from func nsRun()")
 	cmd := exec.Command("/bin/sh")
 
 	cmd.Stdin = os.Stdin
@@ -80,4 +81,5 @@ func main() {
 		fmt.Printf("Error running the reexec.Command - %s\n", err)
 		os.Exit(1)
 	}
+	log.Println("func main() finish")
 }
